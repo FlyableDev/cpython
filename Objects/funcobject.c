@@ -9,10 +9,11 @@
 
 static uint32_t next_func_version = 1;
 
+extern void flyableFoundFunc(PyFunctionObject*);
+
 PyFunctionObject *
 _PyFunction_FromConstructor(PyFrameConstructor *constr)
 {
-
     PyFunctionObject *op = PyObject_GC_New(PyFunctionObject, &PyFunction_Type);
     if (op == NULL) {
         return NULL;
