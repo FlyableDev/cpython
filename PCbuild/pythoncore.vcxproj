@@ -121,6 +121,7 @@
         %(PreprocessorDefinitions)
       </PreprocessorDefinitions>
     </ClCompile>
+    <ClCompile Include="flyable.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Include\flyable.h" />

@@ -11,7 +11,7 @@ extern "C" {
 
 //Represents the implementation of a flyable object
 typedef struct FlyableImpl{
-    PyObject* name;
+    char* name;
     void* tp_call;
     void* vec_call;
 }FlyableImpl;
@@ -20,37 +20,9 @@ typedef struct FlyableImpl{
 FlyableImpl* FlyableImpls = NULL;
 int FlyableImplsCount = 0;
 
-void flyable_add_impl(PyObject* name,void* tp,void* vec)
-{
-    if (FlyableImpls == NULL)
-    {
-        FlyableImpls = (FlyableImpl*) malloc(sizeof(FlyableImpl));
-        FlyableImplsCount = 1;
-    }
-    else
-    {
-        FlyableImplsCount++;
-        FlyableImpls = (FlyableImpl*) realloc(FlyableImpls, sizeof(FlyableImpl) * FlyableImplsCount);
-    }
+static void flyable_add_impl(char* name, void* tp, void* vec);
 
-    FlyableImpl* newImpl = &FlyableImpls[FlyableImplsCount - 1];
-    newImpl->name = name;
-    newImpl->tp_call = tp;
-    newImpl->vec_call = vec;
-}
-
-//Get an object and try to match it to replace the given pointers
-void flyable_set_implementation(PyObject* object)
-{
-    if (PyFunction_Check(object))
-    {
-        PyFunctionObject* funcObj = (PyFunctionObject*) object;
-    }
-    else if (PyMethod_Check(object))
-    {
-        PyMethodObject* methodObj = (PyMethodObject*) object;
-    }
-}
+void flyable_set_implementation(PyObject* object);
 
 #ifdef __cplusplus
 }

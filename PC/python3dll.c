@@ -14,6 +14,9 @@
 #define EXPORT_DATA(name) \
     __pragma(comment(linker, "/EXPORT:" DECORATE #name "=" PYTHON_DLL_NAME "." #name ",DATA"))
 
+//Flyable export
+EXPORT_FUNC(flyable_add_impl)
+
 EXPORT_FUNC(_Py_BuildValue_SizeT)
 EXPORT_FUNC(_Py_CheckRecursiveCall)
 EXPORT_FUNC(_Py_Dealloc)

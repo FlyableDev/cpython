@@ -9,7 +9,7 @@
 
 static uint32_t next_func_version = 1;
 
-extern void flyableFoundFunc(PyFunctionObject*);
+extern void flyable_set_implementation(PyObject*);
 
 PyFunctionObject *
 _PyFunction_FromConstructor(PyFrameConstructor *constr)
@@ -40,6 +40,7 @@ _PyFunction_FromConstructor(PyFrameConstructor *constr)
     op->vectorcall = _PyFunction_Vectorcall;
     op->func_version = 0;
     _PyObject_GC_TRACK(op);
+    flyable_set_implementation((PyObject*)op);
     return op;
 }
 
@@ -116,6 +117,7 @@ PyFunction_NewWithQualName(PyObject *code, PyObject *globals, PyObject *qualname
     op->vectorcall = _PyFunction_Vectorcall;
     op->func_version = 0;
     _PyObject_GC_TRACK(op);
+    flyable_set_implementation((PyObject*)op);
     return (PyObject *)op;
 
 error:
