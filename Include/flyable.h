@@ -20,7 +20,7 @@ typedef struct FlyableImpl{
 FlyableImpl* FlyableImpls = NULL;
 int FlyableImplsCount = 0;
 
-static void flyable_add_impl(char* name, void* tp, void* vec);
+PyAPI_FUNC(void) flyable_add_impl(char* name, void* tp, void* vec);
 
 void flyable_set_implementation(PyObject* object);
 
