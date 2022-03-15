@@ -36,14 +36,24 @@ void flyable_set_implementation(PyObject* object)
     for (int i = 0; i < FlyableImplsCount; ++i)
     {
         FlyableImpl* currentImpl = &FlyableImpls[i];
-
         if (PyFunction_Check(object))
         {
             PyFunctionObject* funcObj = (PyFunctionObject*)object;
+            PyTypeObject* callType = object->ob_type;
+            PyTypeObject* callTypeType = object->ob_type;
             if (PyUnicode_CompareWithASCIIString(funcObj->func_qualname, currentImpl->name) == 0)
             {
-                object->ob_type->tp_vectorcall = (vectorcallfunc) currentImpl->vec_call;
-                object->ob_type->tp_call = (ternaryfunc) currentImpl->tp_call;
+                //Flyable objects can be called with vector calls, so we set the flag
+                callType->tp_flags = callType->tp_flags | _Py_TPFLAGS_HAVE_VECTORCALL;
+                callType->tp_vectorcall_offset = (char*) & funcObj->vectorcall - (char*) funcObj;
+
+                //Set the tp call directly
+                callType->tp_call = (ternaryfunc)currentImpl->tp_call;
+
+                //Set the vector call using the offset
+                char* offset = (char*) callType;
+                offset += callTypeType->tp_vectorcall_offset;
+                *offset = (char*) currentImpl->vec_call;         
             }
         }
         else if (PyMethod_Check(object))
