@@ -9,7 +9,7 @@
 
 static uint32_t next_func_version = 1;
 
-extern void flyable_set_implementation(PyObject*);
+
 
 PyFunctionObject *
 _PyFunction_FromConstructor(PyFrameConstructor *constr)
