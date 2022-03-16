@@ -16,6 +16,7 @@
 
 //Flyable export
 EXPORT_FUNC(flyable_add_impl)
+EXPORT_FUNC(flyable_set_implementation)
 
 EXPORT_FUNC(_Py_BuildValue_SizeT)
 EXPORT_FUNC(_Py_CheckRecursiveCall)
