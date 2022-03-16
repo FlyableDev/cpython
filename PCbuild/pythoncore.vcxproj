@@ -121,7 +121,6 @@
         %(PreprocessorDefinitions)
       </PreprocessorDefinitions>
     </ClCompile>
-    <ClCompile Include="flyable.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Include\flyable.h" />
@@ -430,6 +429,7 @@
     <ClCompile Include="..\Objects\exceptions.c" />
     <ClCompile Include="..\Objects\fileobject.c" />
     <ClCompile Include="..\Objects\floatobject.c" />
+    <ClCompile Include="..\Objects\flyable.c" />
     <ClCompile Include="..\Objects\frameobject.c" />
     <ClCompile Include="..\Objects\funcobject.c" />
     <ClCompile Include="..\Objects\genericaliasobject.c" />

@@ -6,6 +6,7 @@
 #include "pycore_object.h"        // _PyObject_GC_UNTRACK()
 #include "pycore_pyerrors.h"      // _PyErr_Occurred()
 #include "structmember.h"         // PyMemberDef
+#include "flyable.h"
 
 static uint32_t next_func_version = 1;
 
