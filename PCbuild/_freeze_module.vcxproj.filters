@@ -397,11 +397,15 @@
     <ClCompile Include="..\PC\winreg.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\Modules\getpath.py">
-      <Filter>Python Files</Filter>
-    </None>
+    <ClCompile Include="..\Parser\pegen_errors.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Parser\action_helpers.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Objects\flyable.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <!-- BEGIN frozen modules -->

@@ -99,6 +99,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Objects\flyable.c" />
     <ClCompile Include="..\Programs\_freeze_module.c" />
     <ClCompile Include="..\PC\config_minimal.c" />
   </ItemGroup>
@@ -366,59 +367,22 @@
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
   <Target Name="_RebuildGetPath" AfterTargets="_RebuildFrozen" Condition="$(Configuration) != 'PGUpdate'">
-    <Exec Command='"$(TargetPath)" "%(GetPath.ModName)" "%(GetPath.FullPath)" "%(GetPath.IntFile)"' />
-
-    <Copy SourceFiles="%(GetPath.IntFile)"
-          DestinationFiles="%(GetPath.OutFile)"
-          Condition="!Exists(%(GetPath.OutFile)) or (Exists(%(GetPath.IntFile)) and '$([System.IO.File]::ReadAllText(%(GetPath.OutFile)).Replace(`&#x0D;&#x0A;`, `&#x0A;`))' != '$([System.IO.File]::ReadAllText(%(GetPath.IntFile)).Replace(`&#x0D;&#x0A;`, `&#x0A;`))')">
+    <Exec Command="&quot;$(TargetPath)&quot; &quot;%(GetPath.ModName)&quot; &quot;%(GetPath.FullPath)&quot; &quot;%(GetPath.IntFile)&quot;" />
+    <Copy SourceFiles="%(GetPath.IntFile)" DestinationFiles="%(GetPath.OutFile)" Condition="!Exists(%(GetPath.OutFile)) or (Exists(%(GetPath.IntFile)) and '$([System.IO.File]::ReadAllText(%(GetPath.OutFile)).Replace(`&#xD;&#xA;`, `&#xA;`))' != '$([System.IO.File]::ReadAllText(%(GetPath.IntFile)).Replace(`&#xD;&#xA;`, `&#xA;`))')">
       <Output TaskParameter="CopiedFiles" ItemName="_UpdatedGetPath" />
     </Copy>
-
-    <Message Text="Updated files: @(_UpdatedGetPath->'%(Filename)%(Extension)',', ')"
-             Condition="'@(_UpdatedGetPath)' != ''" Importance="high" />
+    <Message Text="Updated files: @(_UpdatedGetPath->'%(Filename)%(Extension)',', ')" Condition="'@(_UpdatedGetPath)' != ''" Importance="high" />
   </Target>
   <Target Name="_RebuildFrozen" AfterTargets="AfterBuild" Condition="$(Configuration) != 'PGUpdate'">
-    <Exec Command='"$(TargetPath)" "%(None.ModName)" "%(None.FullPath)" "%(None.IntFile)"' />
-
-    <Copy SourceFiles="%(None.IntFile)"
-          DestinationFiles="%(None.OutFile)"
-          Condition="!Exists(%(None.OutFile)) or (Exists(%(None.IntFile)) and '$([System.IO.File]::ReadAllText(%(None.OutFile)).Replace(`&#x0D;&#x0A;`, `&#x0A;`))' != '$([System.IO.File]::ReadAllText(%(None.IntFile)).Replace(`&#x0D;&#x0A;`, `&#x0A;`))')">
+    <Exec Command="&quot;$(TargetPath)&quot; &quot;%(None.ModName)&quot; &quot;%(None.FullPath)&quot; &quot;%(None.IntFile)&quot;" />
+    <Copy SourceFiles="%(None.IntFile)" DestinationFiles="%(None.OutFile)" Condition="!Exists(%(None.OutFile)) or (Exists(%(None.IntFile)) and '$([System.IO.File]::ReadAllText(%(None.OutFile)).Replace(`&#xD;&#xA;`, `&#xA;`))' != '$([System.IO.File]::ReadAllText(%(None.IntFile)).Replace(`&#xD;&#xA;`, `&#xA;`))')">
       <Output TaskParameter="CopiedFiles" ItemName="_Updated" />
     </Copy>
-
-    <Message Text="Updated files: @(_Updated->'%(Filename)%(Extension)',', ')"
-             Condition="'@(_Updated)' != ''" Importance="high" />
+    <Message Text="Updated files: @(_Updated->'%(Filename)%(Extension)',', ')" Condition="'@(_Updated)' != ''" Importance="high" />
   </Target>
-  <Target Name="_RebuildDeepFrozen"
-          AfterTargets="_RebuildFrozen"
-          DependsOnTargets="FindPythonForBuild"
-          Condition="$(Configuration) != 'PGUpdate'">
+  <Target Name="_RebuildDeepFrozen" AfterTargets="_RebuildFrozen" DependsOnTargets="FindPythonForBuild" Condition="$(Configuration) != 'PGUpdate'">
     <!-- BEGIN deepfreeze rule -->
-	<Exec Command='$(PythonForBuild) "$(PySourcePath)Tools\scripts\deepfreeze.py" ^
-		 "$(PySourcePath)Python\frozen_modules\importlib._bootstrap.h:importlib._bootstrap" ^
-		 "$(PySourcePath)Python\frozen_modules\importlib._bootstrap_external.h:importlib._bootstrap_external" ^
-		 "$(PySourcePath)Python\frozen_modules\zipimport.h:zipimport" ^
-		 "$(PySourcePath)Python\frozen_modules\abc.h:abc" ^
-		 "$(PySourcePath)Python\frozen_modules\codecs.h:codecs" ^
-		 "$(PySourcePath)Python\frozen_modules\io.h:io" ^
-		 "$(PySourcePath)Python\frozen_modules\_collections_abc.h:_collections_abc" ^
-		 "$(PySourcePath)Python\frozen_modules\_sitebuiltins.h:_sitebuiltins" ^
-		 "$(PySourcePath)Python\frozen_modules\genericpath.h:genericpath" ^
-		 "$(PySourcePath)Python\frozen_modules\ntpath.h:ntpath" ^
-		 "$(PySourcePath)Python\frozen_modules\posixpath.h:posixpath" ^
-		 "$(PySourcePath)Python\frozen_modules\os.h:os" ^
-		 "$(PySourcePath)Python\frozen_modules\site.h:site" ^
-		 "$(PySourcePath)Python\frozen_modules\stat.h:stat" ^
-		 "$(PySourcePath)Python\frozen_modules\importlib.util.h:importlib.util" ^
-		 "$(PySourcePath)Python\frozen_modules\importlib.machinery.h:importlib.machinery" ^
-		 "$(PySourcePath)Python\frozen_modules\runpy.h:runpy" ^
-		 "$(PySourcePath)Python\frozen_modules\__hello__.h:__hello__" ^
-		 "$(PySourcePath)Python\frozen_modules\__phello__.h:__phello__" ^
-		 "$(PySourcePath)Python\frozen_modules\__phello__.ham.h:__phello__.ham" ^
-		 "$(PySourcePath)Python\frozen_modules\__phello__.ham.eggs.h:__phello__.ham.eggs" ^
-		 "$(PySourcePath)Python\frozen_modules\__phello__.spam.h:__phello__.spam" ^
-		 "$(PySourcePath)Python\frozen_modules\frozen_only.h:frozen_only" ^
-		 "-o" "$(PySourcePath)Python\deepfreeze\deepfreeze.c"'/>
+    <Exec Command="$(PythonForBuild) &quot;$(PySourcePath)Tools\scripts\deepfreeze.py&quot; ^&#xD;&#xA;		 &quot;$(PySourcePath)Python\frozen_modules\importlib._bootstrap.h:importlib._bootstrap&quot; ^&#xD;&#xA;		 &quot;$(PySourcePath)Python\frozen_modules\importlib._bootstrap_external.h:importlib._bootstrap_external&quot; ^&#xD;&#xA;		 &quot;$(PySourcePath)Python\frozen_modules\zipimport.h:zipimport&quot; ^&#xD;&#xA;		 &quot;$(PySourcePath)Python\frozen_modules\abc.h:abc&quot; ^&#xD;&#xA;		 &quot;$(PySourcePath)Python\frozen_modules\codecs.h:codecs&quot; ^&#xD;&#xA;		 &quot;$(PySourcePath)Python\frozen_modules\io.h:io&quot; ^&#xD;&#xA;		 &quot;$(PySourcePath)Python\frozen_modules\_collections_abc.h:_collections_abc&quot; ^&#xD;&#xA;		 &quot;$(PySourcePath)Python\frozen_modules\_sitebuiltins.h:_sitebuiltins&quot; ^&#xD;&#xA;		 &quot;$(PySourcePath)Python\frozen_modules\genericpath.h:genericpath&quot; ^&#xD;&#xA;		 &quot;$(PySourcePath)Python\frozen_modules\ntpath.h:ntpath&quot; ^&#xD;&#xA;		 &quot;$(PySourcePath)Python\frozen_modules\posixpath.h:posixpath&quot; ^&#xD;&#xA;		 &quot;$(PySourcePath)Python\frozen_modules\os.h:os&quot; ^&#xD;&#xA;		 &quot;$(PySourcePath)Python\frozen_modules\site.h:site&quot; ^&#xD;&#xA;		 &quot;$(PySourcePath)Python\frozen_modules\stat.h:stat&quot; ^&#xD;&#xA;		 &quot;$(PySourcePath)Python\frozen_modules\importlib.util.h:importlib.util&quot; ^&#xD;&#xA;		 &quot;$(PySourcePath)Python\frozen_modules\importlib.machinery.h:importlib.machinery&quot; ^&#xD;&#xA;		 &quot;$(PySourcePath)Python\frozen_modules\runpy.h:runpy&quot; ^&#xD;&#xA;		 &quot;$(PySourcePath)Python\frozen_modules\__hello__.h:__hello__&quot; ^&#xD;&#xA;		 &quot;$(PySourcePath)Python\frozen_modules\__phello__.h:__phello__&quot; ^&#xD;&#xA;		 &quot;$(PySourcePath)Python\frozen_modules\__phello__.ham.h:__phello__.ham&quot; ^&#xD;&#xA;		 &quot;$(PySourcePath)Python\frozen_modules\__phello__.ham.eggs.h:__phello__.ham.eggs&quot; ^&#xD;&#xA;		 &quot;$(PySourcePath)Python\frozen_modules\__phello__.spam.h:__phello__.spam&quot; ^&#xD;&#xA;		 &quot;$(PySourcePath)Python\frozen_modules\frozen_only.h:frozen_only&quot; ^&#xD;&#xA;		 &quot;-o&quot; &quot;$(PySourcePath)Python\deepfreeze\deepfreeze.c&quot;" />
     <!-- END deepfreeze rule -->
   </Target>
   <Target Name="_CleanFrozen" BeforeTargets="CoreClean" Condition="$(Configuration) != 'PGUpdate'">
