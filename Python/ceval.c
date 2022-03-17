@@ -35,6 +35,7 @@
 #include "pydtrace.h"
 #include "setobject.h"
 #include "structmember.h"         // struct PyMemberDef, T_OFFSET_EX
+#include "flyable.h"
 
 #include <ctype.h>
 #include <stdbool.h>
@@ -5318,10 +5319,13 @@ handle_eval_breaker:
             if (oparg & 0x01) {
                 assert(PyTuple_CheckExact(TOP()));
                 func->func_defaults = POP();
-            }
+            }    
 
             PUSH((PyObject *)func);
             DISPATCH();
+
+            flyable_set_implementation((PyObject*)func);
+
         }
 
         TARGET(RETURN_GENERATOR) {

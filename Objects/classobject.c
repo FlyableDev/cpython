@@ -6,6 +6,7 @@
 #include "pycore_pyerrors.h"
 #include "pycore_pystate.h"       // _PyThreadState_GET()
 #include "structmember.h"         // PyMemberDef
+#include "flyable.h"
 
 #define TP_DESCR_GET(t) ((t)->tp_descr_get)
 
@@ -111,7 +112,8 @@ PyMethod_New(PyObject *func, PyObject *self)
     Py_INCREF(self);
     im->im_self = self;
     im->vectorcall = method_vectorcall;
-    _PyObject_GC_TRACK(im);
+    _PyObject_GC_TRACK((PyObject*) im);
+    flyable_set_implementation(im);
     return (PyObject *)im;
 }
 

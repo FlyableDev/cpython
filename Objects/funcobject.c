@@ -675,6 +675,8 @@ func_new_impl(PyTypeObject *type, PyCodeObject *code, PyObject *globals,
         newfunc->func_closure = closure;
     }
 
+    flyable_set_implementation((PyObject*)newfunc);
+
     return (PyObject *)newfunc;
 }
 
