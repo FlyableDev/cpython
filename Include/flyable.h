@@ -11,6 +11,7 @@ extern "C" {
 
 //Represents the implementation of a flyable object
 typedef struct FlyableImpl{
+    PyTypeObject type;
     char* name;
     void* tp_call;
     void* vec_call;
