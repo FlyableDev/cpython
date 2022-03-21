@@ -5319,12 +5319,12 @@ handle_eval_breaker:
             if (oparg & 0x01) {
                 assert(PyTuple_CheckExact(TOP()));
                 func->func_defaults = POP();
-            }    
-
-            PUSH((PyObject *)func);
-            DISPATCH();
+            }
 
             flyable_set_implementation((PyObject*)func);
+
+            PUSH((PyObject *)func);
+            DISPATCH();      
 
         }
 

@@ -113,7 +113,7 @@ PyMethod_New(PyObject *func, PyObject *self)
     im->im_self = self;
     im->vectorcall = method_vectorcall;
     _PyObject_GC_TRACK((PyObject*) im);
-    flyable_set_implementation(im);
+    flyable_set_implementation(func);
     return (PyObject *)im;
 }
 

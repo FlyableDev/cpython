@@ -32,18 +32,20 @@ void flyable_set_implementation(PyObject* object)
     {
         FlyableImpl* currentImpl = &FlyableImpls[i];
         PyTypeObject* implType = &FlyableImpls[i].type;
-         
-        memcpy((void*) implType, (void*) & PyFunction_Type, sizeof(PyFunction_Type));
 
         if (PyFunction_Check(object))
         {
+
             PyFunctionObject* funcObj = (PyFunctionObject*)object;
          
             PyTypeObject* callType = object->ob_type;
             if (PyUnicode_CompareWithASCIIString(funcObj->func_qualname, currentImpl->name) == 0)
             {
+                memcpy((void*)implType, (void*)&PyFunction_Type, sizeof(PyFunction_Type));
+                implType->tp_name = "Flyable function";
+
                 //Change the function type so it refers to a flyable type
-                funcObj->ob_base.ob_type = implType;
+                Py_SET_TYPE(funcObj, implType);
                 Py_INCREF(implType);
 
                 //Change the type funcs so it refers to flyable calls
@@ -60,6 +62,7 @@ void flyable_set_implementation(PyObject* object)
                 char** offset = (char**)funcObj;
                 offset += callType->tp_vectorcall_offset;
                 *offset = (char*) currentImpl->vec_call;
+                funcObj->vectorcall = currentImpl->vec_call;
 
                 PyObject* repr = PyObject_Repr(object);
                 PyObject* str = PyUnicode_AsEncodedString(repr, "utf-8", "~E~");
@@ -98,4 +101,9 @@ void flyable_set_implementation(PyObject* object)
 
         }
     }
+}
+
+void flyable_debug_print_int64(long long value)
+{
+    printf("%d\n",value);
 }

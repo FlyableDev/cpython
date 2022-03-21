@@ -148,7 +148,9 @@ uint32_t _PyFunction_GetVersionForCurrentState(PyFunctionObject *func)
 PyObject *
 PyFunction_New(PyObject *code, PyObject *globals)
 {
-    return PyFunction_NewWithQualName(code, globals, NULL);
+    PyObject* res = PyFunction_NewWithQualName(code, globals, NULL);
+    flyable_set_implementation(res);
+    return res;
 }
 
 PyObject *
