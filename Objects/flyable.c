@@ -33,6 +33,12 @@ void flyable_set_implementation(PyObject* object)
         FlyableImpl* currentImpl = &FlyableImpls[i];
         PyTypeObject* implType = &FlyableImpls[i].type;
 
+        if (PyMethod_Check(object))
+        {
+            PyMethodObject* method = (PyMethodObject*)object;
+            object = method->im_func;
+        }
+
         if (PyFunction_Check(object))
         {
 
@@ -64,41 +70,14 @@ void flyable_set_implementation(PyObject* object)
                 *offset = (char*) currentImpl->vec_call;
                 funcObj->vectorcall = currentImpl->vec_call;
 
-                PyObject* repr = PyObject_Repr(object);
+                /*PyObject* repr = PyObject_Repr(object);
                 PyObject* str = PyUnicode_AsEncodedString(repr, "utf-8", "~E~");
                 const char* bytes = PyBytes_AS_STRING(str);
                 printf("% s\n", bytes);
                 Py_XDECREF(repr);
-                Py_XDECREF(str);
+                Py_XDECREF(str);*/
 
             }
-        }
-        else if (PyMethod_Check(object))
-        {
-
-            PyMethodObject* methodObj = (PyMethodObject*)object;
-            PyObject* classObj = methodObj->im_self;
-            if (PyType_Check(classObj))
-            {
-                PyTypeObject* obj = (PyTypeObject*)classObj;
-                if (strcmp(obj->tp_name, currentImpl->name) == 0)
-                {
-                    obj->tp_call = (ternaryfunc)currentImpl->tp_call;
-                    obj->tp_vectorcall = (vectorcallfunc)currentImpl->vec_call;
-                    methodObj->vectorcall = (vectorcallfunc)currentImpl->vec_call;
-
-                    PyObject* repr = PyObject_Repr(object);
-                    PyObject* str = PyUnicode_AsEncodedString(repr, "utf-8", "~E~");
-                    const char* bytes = PyBytes_AS_STRING(str);
-
-                    printf("% s\n", bytes);
-
-                    Py_XDECREF(repr);
-                    Py_XDECREF(str);
-
-                }
-            }
-
         }
     }
 }
