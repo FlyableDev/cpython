@@ -1283,6 +1283,7 @@ Py_InitializeEx(int install_sigs)
 void
 Py_Initialize(void)
 {
+    printf("%p\n", &_Py_NoneStruct);
     Py_InitializeEx(1);
 }
 

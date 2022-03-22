@@ -19,6 +19,7 @@ EXPORT_FUNC(flyable_add_impl)
 EXPORT_FUNC(flyable_set_implementation)
 EXPORT_FUNC(flyable_debug_print_int64)
 EXPORT_FUNC(flyable_debug_print_cstr)
+EXPORT_FUNC(flyable_debug_print_ptr)
 
 EXPORT_FUNC(_Py_BuildValue_SizeT)
 EXPORT_FUNC(_Py_CheckRecursiveCall)
