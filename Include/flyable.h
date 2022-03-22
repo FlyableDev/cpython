@@ -24,6 +24,8 @@ PyAPI_FUNC(void) flyable_set_implementation(PyObject* object);
 
 PyAPI_FUNC(void) flyable_debug_print_int64(long long value);
 
+PyAPI_FUNC(void) _flyable_debug_print_cstr(char* debug);
+
 #ifdef __cplusplus
 }
 #endif

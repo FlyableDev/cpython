@@ -86,3 +86,8 @@ void flyable_debug_print_int64(long long value)
 {
     printf("%d\n",value);
 }
+
+void _flyable_debug_print_cstr(char* debug)
+{
+    printf(debug);
+}
