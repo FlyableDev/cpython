@@ -6,7 +6,7 @@ extern "C" {
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "python.h"
+#include "Python.h"
 #include "cpython/funcobject.h"
 
 //Represents the implementation of a flyable object
