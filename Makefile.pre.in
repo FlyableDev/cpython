@@ -440,6 +440,7 @@ PYTHON_OBJS=	\
 # Objects
 OBJECT_OBJS=	\
 		Objects/abstract.o \
+		Objects/flyable.o \
 		Objects/accu.o \
 		Objects/boolobject.o \
 		Objects/bytes_methods.o \
@@ -1437,6 +1438,7 @@ regen-typeslots:
 PYTHON_HEADERS= \
 		$(srcdir)/Include/Python.h \
 		$(srcdir)/Include/abstract.h \
+		$(srcdir)/Include/flyable.h \
 		$(srcdir)/Include/bltinmodule.h \
 		$(srcdir)/Include/boolobject.h \
 		$(srcdir)/Include/bytearrayobject.h \
